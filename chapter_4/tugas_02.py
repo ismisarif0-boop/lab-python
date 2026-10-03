@@ -42,8 +42,9 @@ class Orang:
             umur (int): Umur dalam tahun.
             alamat (str): Alamat tempat tinggal.
         """
-        # TODO: Inisialisasi atribut nama, umur, alamat
-        ...
+        self.nama = nama
+        self.umur = umur
+        self.alamat = alamat
 
     def info(self):
         """Menampilkan informasi dasar seseorang.
@@ -51,8 +52,7 @@ class Orang:
         Returns:
             str: Informasi dalam format "Nama: ..., Umur: ..., Alamat: ..."
         """
-        # TODO: Implementasikan
-        ...
+        return f"Nama: {self.nama}, Umur: {self.umur}, Alamat: {self.alamat}"
 
     def __str__(self):
         """Representasi string.
@@ -60,8 +60,7 @@ class Orang:
         Returns:
             str: Nama orang tersebut.
         """
-        # TODO: Implementasikan
-        ...
+        return self.nama
 
 
 class Mahasiswa(Orang):
@@ -86,10 +85,11 @@ class Mahasiswa(Orang):
             jurusan (str): Program studi.
             semester (int): Semester saat ini.
         """
-        # TODO: Panggil constructor parent menggunakan super()
-        # TODO: Inisialisasi atribut nim, jurusan, semester, daftar_mk
-        # Hint: super().__init__(nama, umur, alamat)
-        ...
+        super().__init__(nama, umur, alamat)
+        self.nim = nim
+        self.jurusan = jurusan
+        self.semester = semester
+        self.daftar_mk = []
 
     def tambah_mk(self, nama_mk, sks, nilai):
         """Menambahkan mata kuliah ke daftar.
@@ -99,9 +99,7 @@ class Mahasiswa(Orang):
             sks (int): Jumlah SKS.
             nilai (str): Nilai huruf (A/B/C/D/E).
         """
-        # TODO: Tambahkan dict {"nama": nama_mk, "sks": sks, "nilai": nilai}
-        #       ke self.daftar_mk
-        ...
+        self.daftar_mk.append({"nama": nama_mk, "sks": sks, "nilai": nilai})
 
     def hitung_ipk(self):
         """Menghitung IPK berdasarkan daftar mata kuliah.
@@ -112,11 +110,12 @@ class Mahasiswa(Orang):
         Returns:
             float: IPK mahasiswa (0.0 - 4.0), atau 0.0 jika belum ada MK.
         """
-        # TODO: Implementasikan perhitungan IPK
-        # Hint: buat dict bobot = {"A": 4, "B": 3, "C": 2, "D": 1, "E": 0}
-        # total_bobot = sum(bobot[mk["nilai"]] * mk["sks"] for mk in self.daftar_mk)
-        # total_sks = sum(mk["sks"] for mk in self.daftar_mk)
-        ...
+        bobot = {"A": 4, "B": 3, "C": 2, "D": 1, "E": 0}
+        total_sks = sum(mk["sks"] for mk in self.daftar_mk)
+        if total_sks == 0:
+            return 0.0
+        total_bobot = sum(bobot[mk["nilai"]] * mk["sks"] for mk in self.daftar_mk)
+        return total_bobot / total_sks
 
     def info(self):
         """Override method info() dari parent.
@@ -124,10 +123,11 @@ class Mahasiswa(Orang):
         Returns:
             str: Informasi lengkap mahasiswa termasuk NIM, jurusan, IPK.
         """
-        # TODO: Override method info()
-        # Hint: panggil super().info() lalu tambahkan info mahasiswa
-        # Contoh: f"{super().info()}\n  NIM: {self.nim}, Jurusan: {self.jurusan}, IPK: {self.hitung_ipk():.2f}"
-        ...
+        return (
+            f"{super().info()}\n"
+            f"  NIM: {self.nim}, Jurusan: {self.jurusan}, Semester: {self.semester}, "
+            f"IPK: {self.hitung_ipk():.2f}"
+        )
 
 
 class Dosen(Orang):
@@ -149,9 +149,10 @@ class Dosen(Orang):
             nidn (str): Nomor Induk Dosen Nasional.
             bidang_keahlian (str): Bidang keahlian.
         """
-        # TODO: Panggil constructor parent menggunakan super()
-        # TODO: Inisialisasi atribut nidn, bidang_keahlian, daftar_mk_diampu
-        ...
+        super().__init__(nama, umur, alamat)
+        self.nidn = nidn
+        self.bidang_keahlian = bidang_keahlian
+        self.daftar_mk_diampu = []
 
     def tambah_mk_diampu(self, nama_mk):
         """Menambahkan mata kuliah yang diampu.
@@ -159,8 +160,7 @@ class Dosen(Orang):
         Args:
             nama_mk (str): Nama mata kuliah.
         """
-        # TODO: Tambahkan nama_mk ke daftar_mk_diampu
-        ...
+        self.daftar_mk_diampu.append(nama_mk)
 
     def info(self):
         """Override method info() dari parent.
@@ -168,9 +168,12 @@ class Dosen(Orang):
         Returns:
             str: Informasi lengkap dosen termasuk NIDN dan bidang keahlian.
         """
-        # TODO: Override method info()
-        # Hint: panggil super().info() lalu tambahkan info dosen
-        ...
+        mk_diampu = ", ".join(self.daftar_mk_diampu) or "-"
+        return (
+            f"{super().info()}\n"
+            f"  NIDN: {self.nidn}, Keahlian: {self.bidang_keahlian}\n"
+            f"  MK diampu: {mk_diampu}"
+        )
 
 
 class Asisten(Mahasiswa):
@@ -198,9 +201,9 @@ class Asisten(Mahasiswa):
             lab (str): Nama laboratorium.
             dosen_pembimbing (str): Nama dosen pembimbing.
         """
-        # TODO: Panggil constructor parent (Mahasiswa) menggunakan super()
-        # TODO: Inisialisasi atribut lab dan dosen_pembimbing
-        ...
+        super().__init__(nama, umur, alamat, nim, jurusan, semester)
+        self.lab = lab
+        self.dosen_pembimbing = dosen_pembimbing
 
     def info(self):
         """Override method info() dari parent.
@@ -208,60 +211,55 @@ class Asisten(Mahasiswa):
         Returns:
             str: Informasi lengkap asisten termasuk lab dan dosen pembimbing.
         """
-        # TODO: Override method info()
-        # Hint: panggil super().info() lalu tambahkan info asisten
-        ...
+        return (
+            f"{super().info()}\n"
+            f"  Asisten di: {self.lab}, Pembimbing: {self.dosen_pembimbing}"
+        )
 
 
 # ── Demonstrasi ──────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    # TODO: Buat objek dari setiap class
-    # dosen1 = Dosen("Dr. Ahmad", 45, "Makassar", "001122", "Machine Learning")
-    # dosen1.tambah_mk_diampu("Kecerdasan Buatan")
-    # dosen1.tambah_mk_diampu("Data Mining")
+    dosen1 = Dosen("Dr. Ahmad", 45, "Makassar", "001122", "Machine Learning")
+    dosen1.tambah_mk_diampu("Kecerdasan Buatan")
+    dosen1.tambah_mk_diampu("Data Mining")
 
-    # mhs1 = Mahasiswa("Siti Aisyah", 20, "Makassar", "105841100123", "Informatika", 5)
-    # mhs1.tambah_mk("Kalkulus", 3, "A")
-    # mhs1.tambah_mk("Pemrograman Dasar", 4, "A")
-    # mhs1.tambah_mk("Basis Data", 3, "B")
+    mhs1 = Mahasiswa("Siti Aisyah", 20, "Makassar", "105841100123", "Informatika", 5)
+    mhs1.tambah_mk("Kalkulus", 3, "A")
+    mhs1.tambah_mk("Pemrograman Dasar", 4, "A")
+    mhs1.tambah_mk("Basis Data", 3, "B")
 
-    # mhs2 = Mahasiswa("Budi Santoso", 21, "Gowa", "105841100456", "Informatika", 5)
-    # mhs2.tambah_mk("Kalkulus", 3, "B")
-    # mhs2.tambah_mk("Pemrograman Dasar", 4, "A")
-    # mhs2.tambah_mk("Basis Data", 3, "C")
+    mhs2 = Mahasiswa("Budi Santoso", 21, "Gowa", "105841100456", "Informatika", 5)
+    mhs2.tambah_mk("Kalkulus", 3, "B")
+    mhs2.tambah_mk("Pemrograman Dasar", 4, "A")
+    mhs2.tambah_mk("Basis Data", 3, "C")
 
-    # asisten1 = Asisten("Dewi Lestari", 22, "Makassar", "105841100789",
-    #                     "Informatika", 7, "Lab AI", "Dr. Ahmad")
-    # asisten1.tambah_mk("Kecerdasan Buatan", 3, "A")
-    # asisten1.tambah_mk("Machine Learning", 3, "A")
+    asisten1 = Asisten("Dewi Lestari", 22, "Makassar", "105841100789",
+                       "Informatika", 7, "Lab AI", "Dr. Ahmad")
+    asisten1.tambah_mk("Kecerdasan Buatan", 3, "A")
+    asisten1.tambah_mk("Machine Learning", 3, "A")
 
-    # ── Polymorphism: method info() berbeda untuk setiap class ──
-    # print("=== POLYMORPHISM ===")
-    # semua_orang = [dosen1, mhs1, mhs2, asisten1]
-    # for orang in semua_orang:
-    #     print(f"\n[{type(orang).__name__}]")
-    #     print(orang.info())
-    #     print("-" * 50)
+    # Polymorphism: info() berperilaku berbeda di setiap class
+    print("=== POLYMORPHISM ===")
+    semua_orang = [dosen1, mhs1, mhs2, asisten1]
+    for orang in semua_orang:
+        print(f"\n[{type(orang).__name__}]")
+        print(orang.info())
+        print("-" * 50)
 
-    # ── isinstance() ──
-    # print("\n=== ISINSTANCE ===")
-    # for orang in semua_orang:
-    #     print(f"{orang.nama}:")
-    #     print(f"  isinstance(Orang)     = {isinstance(orang, Orang)}")
-    #     print(f"  isinstance(Mahasiswa) = {isinstance(orang, Mahasiswa)}")
-    #     print(f"  isinstance(Dosen)     = {isinstance(orang, Dosen)}")
-    #     print(f"  isinstance(Asisten)   = {isinstance(orang, Asisten)}")
+    print("\n=== ISINSTANCE ===")
+    for orang in semua_orang:
+        print(f"{orang.nama}:")
+        print(f"  isinstance(Orang)     = {isinstance(orang, Orang)}")
+        print(f"  isinstance(Mahasiswa) = {isinstance(orang, Mahasiswa)}")
+        print(f"  isinstance(Dosen)     = {isinstance(orang, Dosen)}")
+        print(f"  isinstance(Asisten)   = {isinstance(orang, Asisten)}")
 
-    # ── issubclass() ──
-    # print("\n=== ISSUBCLASS ===")
-    # print(f"Mahasiswa subclass Orang?  {issubclass(Mahasiswa, Orang)}")
-    # print(f"Dosen subclass Orang?      {issubclass(Dosen, Orang)}")
-    # print(f"Asisten subclass Mahasiswa? {issubclass(Asisten, Mahasiswa)}")
-    # print(f"Asisten subclass Orang?    {issubclass(Asisten, Orang)}")
-    # print(f"Dosen subclass Mahasiswa?  {issubclass(Dosen, Mahasiswa)}")
+    print("\n=== ISSUBCLASS ===")
+    print(f"Mahasiswa subclass Orang?   {issubclass(Mahasiswa, Orang)}")
+    print(f"Dosen subclass Orang?       {issubclass(Dosen, Orang)}")
+    print(f"Asisten subclass Mahasiswa? {issubclass(Asisten, Mahasiswa)}")
+    print(f"Asisten subclass Orang?     {issubclass(Asisten, Orang)}")
+    print(f"Dosen subclass Mahasiswa?   {issubclass(Dosen, Mahasiswa)}")
 
-    # ── MRO (Method Resolution Order) ──
-    # print("\n=== MRO (Method Resolution Order) ===")
-    # print(f"Asisten MRO: {[c.__name__ for c in Asisten.__mro__]}")
-
-    pass
+    print("\n=== MRO (Method Resolution Order) ===")
+    print(f"Asisten MRO: {[c.__name__ for c in Asisten.__mro__]}")

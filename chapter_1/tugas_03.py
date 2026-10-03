@@ -19,43 +19,47 @@
 """
 
 # ── Variabel ─────────────────────────────────────────────────────────────────
-# TODO: Deklarasikan dua variabel bilangan bulat
-a = ...
-b = ...
+a = 17
+b = 5
 
 
 # ── Operator Aritmatika ──────────────────────────────────────────────────────
-# TODO: Tampilkan hasil semua operator aritmatika
-# Contoh: print(f"{a} + {b} = {a + b}")
+print(f"{a} + {b} = {a + b}")
+print(f"{a} - {b} = {a - b}")
+print(f"{a} * {b} = {a * b}")
+print(f"{a} / {b} = {a / b}")
+print(f"{a} // {b} = {a // b}")
+print(f"{a} % {b} = {a % b}")
+print(f"{a} ** {b} = {a ** b}")
 
 
 # ── Operator Perbandingan ────────────────────────────────────────────────────
-# TODO: Buat variabel boolean dari perbandingan a dan b
-# Contoh:
-#   is_equal = a == b
-#   is_greater = a > b
-#   print(f"{a} == {b} ? {is_equal}")
+is_equal = a == b
+is_greater = a > b
+is_less_equal = a <= b
+print(f"{a} == {b} ? {is_equal}")
+print(f"{a} > {b}  ? {is_greater}")
+print(f"{a} <= {b} ? {is_less_equal}")
 
 
 # ── Operator Logika ──────────────────────────────────────────────────────────
-# TODO: Demonstrasikan and, or, not dengan minimal 3 ekspresi
-# Contoh:
-#   print(f"(a > 0) and (b > 0) = {(a > 0) and (b > 0)}")
+print(f"(a > 0) and (b > 0)  = {(a > 0) and (b > 0)}")
+print(f"(a < 0) or (b > 0)   = {(a < 0) or (b > 0)}")
+print(f"not (a == b)         = {not (a == b)}")
+print(f"(a > b) and not is_equal = {(a > b) and not is_equal}")
 
 
 # ── Operator Keanggotaan (in, not in) ────────────────────────────────────────
-# TODO: Buat sebuah list dan demonstrasikan operator in / not in
-# Contoh:
-#   buah = ["apel", "mangga", "jeruk"]
-#   print(f"'apel' in buah? {'apel' in buah}")
+buah = ["apel", "mangga", "jeruk"]
+print(f"'apel' in buah?       {'apel' in buah}")
+print(f"'durian' in buah?     {'durian' in buah}")
+print(f"'durian' not in buah? {'durian' not in buah}")
 
 
 # ── Perbedaan == dan is ──────────────────────────────────────────────────────
-# TODO: Tunjukkan perbedaan == (equality) dan is (identity)
-# Contoh:
-#   list_a = [1, 2, 3]
-#   list_b = [1, 2, 3]
-#   list_c = list_a
-#   print(f"list_a == list_b ? {list_a == list_b}")   # True (nilai sama)
-#   print(f"list_a is list_b ? {list_a is list_b}")    # False (objek berbeda)
-#   print(f"list_a is list_c ? {list_a is list_c}")    # True (objek sama)
+list_a = [1, 2, 3]
+list_b = [1, 2, 3]
+list_c = list_a
+print(f"list_a == list_b ? {list_a == list_b}")  # True (nilai sama)
+print(f"list_a is list_b ? {list_a is list_b}")  # False (objek berbeda)
+print(f"list_a is list_c ? {list_a is list_c}")  # True (objek sama)

@@ -17,43 +17,54 @@
 """
 
 # ── Data Nilai ────────────────────────────────────────────────────────────────
-# TODO: Buat list berisi 10 nilai ujian
-nilai = ...  # Contoh: [85, 60, 92, 45, 78, 55, 90, 73, 68, 88]
+nilai = [85, 60, 92, 45, 78, 55, 90, 73, 68, 88]
 
 
 # ── Statistik Dasar (hitung manual, tanpa library) ───────────────────────────
-# TODO: Hitung nilai tertinggi, terendah, dan rata-rata
-# Hint: gunakan max(), min(), sum(), len()
-nilai_tertinggi = ...
-nilai_terendah = ...
-rata_rata = ...
+# Hitung manual dengan loop (tanpa max/min/sum)
+nilai_tertinggi = nilai[0]
+nilai_terendah = nilai[0]
+total = 0
+for n in nilai:
+    if n > nilai_tertinggi:
+        nilai_tertinggi = n
+    if n < nilai_terendah:
+        nilai_terendah = n
+    total += n
+rata_rata = total / len(nilai)
 
 
 # ── Pengurutan ────────────────────────────────────────────────────────────────
-# TODO: Urutkan list dari terkecil ke terbesar
-# Hint: gunakan sorted() atau .sort()
+nilai_urut = sorted(nilai)
 
 
 # ── List Comprehension: Filter Nilai Lulus ────────────────────────────────────
-# TODO: Gunakan list comprehension untuk membuat list nilai >= 70
-nilai_lulus = ...  # [n for n in nilai if n >= 70]
+nilai_lulus = [n for n in nilai if n >= 70]
 
 
 # ── Hitung Lulus & Tidak Lulus ────────────────────────────────────────────────
-# TODO: Hitung jumlah mahasiswa lulus dan tidak lulus
-jumlah_lulus = ...
-jumlah_tidak_lulus = ...
+jumlah_lulus = len(nilai_lulus)
+jumlah_tidak_lulus = len(nilai) - jumlah_lulus
 
 
 # ── Manipulasi List ──────────────────────────────────────────────────────────
-# TODO: Tambahkan 2 nilai baru menggunakan append()
-# TODO: Hapus nilai terkecil menggunakan remove()
+nilai_akhir = nilai.copy()  # salinan agar tampilan "nilai awal" tidak berubah
+nilai_akhir.append(81)
+nilai_akhir.append(95)
+nilai_terkecil = nilai_akhir[0]
+for n in nilai_akhir:
+    if n < nilai_terkecil:
+        nilai_terkecil = n
+nilai_akhir.remove(nilai_terkecil)  # remove() hanya menghapus kemunculan pertama
 
 
 # ── Tampilkan Hasil ──────────────────────────────────────────────────────────
-# TODO: Tampilkan semua hasil dengan format rapi
-# Contoh:
-# print("===== MANAJEMEN NILAI MAHASISWA =====")
-# print(f"Nilai awal   : {nilai}")
-# print(f"Tertinggi    : {nilai_tertinggi}")
-# ...
+print("===== MANAJEMEN NILAI MAHASISWA =====")
+print(f"Nilai awal   : {nilai}")
+print(f"Tertinggi    : {nilai_tertinggi}")
+print(f"Terendah     : {nilai_terendah}")
+print(f"Rata-rata    : {rata_rata:.1f}")
+print(f"Nilai sorted : {nilai_urut}")
+print(f"Nilai lulus  : {nilai_lulus}")
+print(f"Lulus: {jumlah_lulus} | Tidak lulus: {jumlah_tidak_lulus}")
+print(f"Setelah append 81 & 95, remove {nilai_terkecil}: {nilai_akhir}")

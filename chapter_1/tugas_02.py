@@ -31,17 +31,14 @@ def konversi_suhu(celsius):
     Returns:
         tuple: (fahrenheit, reamur, kelvin)
     """
-    # TODO: Hitung konversi suhu
-    fahrenheit = ...
-    reamur = ...
-    kelvin = ...
+    fahrenheit = (celsius * 9 / 5) + 32
+    reamur = celsius * 4 / 5
+    kelvin = celsius + 273.15
     return fahrenheit, reamur, kelvin
 
 
 # ── Tampilkan Hasil Konversi ─────────────────────────────────────────────────
-# TODO: Uji fungsi dengan minimal 3 nilai celsius berbeda
-# Contoh:
-#   nilai_celsius = [0, 100, 37.5]
-#   for c in nilai_celsius:
-#       f, r, k = konversi_suhu(c)
-#       print(f"{c:.2f}°C = {f:.2f}°F = {r:.2f}°R = {k:.2f}K")
+nilai_celsius = [0, 100, 37.5, -10]
+for c in nilai_celsius:
+    f, r, k = konversi_suhu(c)
+    print(f"{c:.2f}°C = {f:.2f}°F = {r:.2f}°R = {k:.2f}K")

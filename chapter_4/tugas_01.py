@@ -43,9 +43,11 @@ class Buku:
             tahun (int): Tahun terbit.
             isbn (str): Nomor ISBN.
         """
-        # TODO: Inisialisasi semua atribut
-        # Hint: self.tersedia default-nya True (buku baru selalu tersedia)
-        ...
+        self.judul = judul
+        self.penulis = penulis
+        self.tahun = tahun
+        self.isbn = isbn
+        self.tersedia = True  # buku baru selalu tersedia
 
     def __str__(self):
         """Representasi string yang mudah dibaca.
@@ -53,9 +55,8 @@ class Buku:
         Returns:
             str: Contoh -> "Python Dasar oleh John (2023) [Tersedia]"
         """
-        # TODO: Implementasikan
-        # Hint: gunakan "Tersedia" jika self.tersedia else "Dipinjam"
-        ...
+        status = "Tersedia" if self.tersedia else "Dipinjam"
+        return f"{self.judul} oleh {self.penulis} ({self.tahun}) [{status}]"
 
     def __repr__(self):
         """Representasi resmi untuk debugging.
@@ -63,9 +64,7 @@ class Buku:
         Returns:
             str: Contoh -> "Buku('Python Dasar', 'John', 2023, '978-123')"
         """
-        # TODO: Implementasikan
-        # Hint: return f"Buku('{self.judul}', '{self.penulis}', {self.tahun}, '{self.isbn}')"
-        ...
+        return f"Buku('{self.judul}', '{self.penulis}', {self.tahun}, '{self.isbn}')"
 
 
 class Perpustakaan:
@@ -82,8 +81,8 @@ class Perpustakaan:
         Args:
             nama (str): Nama perpustakaan.
         """
-        # TODO: Inisialisasi atribut nama dan daftar_buku (list kosong)
-        ...
+        self.nama = nama
+        self.daftar_buku = []
 
     def tambah_buku(self, buku):
         """Menambahkan buku ke koleksi perpustakaan.
@@ -91,9 +90,21 @@ class Perpustakaan:
         Args:
             buku (Buku): Objek Buku yang akan ditambahkan.
         """
-        # TODO: Tambahkan buku ke daftar_buku
-        # Hint: cek apakah ISBN sudah ada untuk menghindari duplikasi
-        ...
+        if self._temukan(buku.isbn) is not None:
+            print(f"Buku dengan ISBN {buku.isbn} sudah ada, dilewati.")
+            return
+        self.daftar_buku.append(buku)
+
+    def _temukan(self, isbn):
+        """Mencari buku berdasarkan ISBN.
+
+        Returns:
+            Buku | None: Objek Buku, atau None jika tidak ditemukan.
+        """
+        for buku in self.daftar_buku:
+            if buku.isbn == isbn:
+                return buku
+        return None
 
     def cari_buku(self, kata_kunci):
         """Mencari buku berdasarkan kata kunci (pencarian parsial).
@@ -106,10 +117,11 @@ class Perpustakaan:
         Returns:
             list: Daftar objek Buku yang cocok.
         """
-        # TODO: Implementasikan pencarian parsial
-        # Hint: gunakan 'in' operator dan .lower() untuk case-insensitive
-        # Contoh: [b for b in self.daftar_buku if kata_kunci.lower() in b.judul.lower()]
-        ...
+        kunci = kata_kunci.lower()
+        return [
+            b for b in self.daftar_buku
+            if kunci in b.judul.lower() or kunci in b.penulis.lower()
+        ]
 
     def pinjam_buku(self, isbn):
         """Meminjam buku berdasarkan ISBN.
@@ -120,12 +132,13 @@ class Perpustakaan:
         Returns:
             str: Pesan berhasil/gagal meminjam.
         """
-        # TODO: Implementasikan logika peminjaman
-        # 1. Cari buku berdasarkan ISBN
-        # 2. Cek apakah buku tersedia (tersedia == True)
-        # 3. Jika tersedia, ubah status menjadi False
-        # 4. Jika tidak tersedia atau tidak ditemukan, tampilkan pesan
-        ...
+        buku = self._temukan(isbn)
+        if buku is None:
+            return f"Gagal: buku dengan ISBN {isbn} tidak ditemukan."
+        if not buku.tersedia:
+            return f"Gagal: '{buku.judul}' sedang dipinjam."
+        buku.tersedia = False
+        return f"Berhasil meminjam '{buku.judul}'."
 
     def kembalikan_buku(self, isbn):
         """Mengembalikan buku berdasarkan ISBN.
@@ -136,12 +149,13 @@ class Perpustakaan:
         Returns:
             str: Pesan berhasil/gagal mengembalikan.
         """
-        # TODO: Implementasikan logika pengembalian
-        # 1. Cari buku berdasarkan ISBN
-        # 2. Cek apakah buku sedang dipinjam (tersedia == False)
-        # 3. Jika sedang dipinjam, ubah status menjadi True
-        # 4. Jika sudah tersedia atau tidak ditemukan, tampilkan pesan
-        ...
+        buku = self._temukan(isbn)
+        if buku is None:
+            return f"Gagal: buku dengan ISBN {isbn} tidak ditemukan."
+        if buku.tersedia:
+            return f"Gagal: '{buku.judul}' sudah tersedia (tidak sedang dipinjam)."
+        buku.tersedia = True
+        return f"Berhasil mengembalikan '{buku.judul}'."
 
     def tampilkan_semua(self):
         """Menampilkan semua buku dalam format tabel.
@@ -154,53 +168,50 @@ class Perpustakaan:
          2 | Data Science        | Jane Smith     |  2022 | Dipinjam
         ============================================================
         """
-        # TODO: Implementasikan tampilan tabel
-        # Hint: gunakan f-string dengan format alignment
-        # f"{i:>2} | {b.judul:<20} | {b.penulis:<15} | {b.tahun:>5} | {status}"
-        ...
+        print(f"{'=' * 12} {self.nama.upper()} {'=' * 12}")
+        print(f"{'No':>2} | {'Judul':<26} | {'Penulis':<17} | {'Tahun':>5} | Status")
+        print("-" * 75)
+        for i, b in enumerate(self.daftar_buku, 1):
+            status = "Tersedia" if b.tersedia else "Dipinjam"
+            print(f"{i:>2} | {b.judul:<26} | {b.penulis:<17} | {b.tahun:>5} | {status}")
+        print("=" * 75)
+        tersedia = sum(1 for b in self.daftar_buku if b.tersedia)
+        total = len(self.daftar_buku)
+        print(f"Total: {total} buku | Tersedia: {tersedia} | Dipinjam: {total - tersedia}")
 
 
 # ── Demonstrasi ──────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    # TODO: Buat minimal 5 objek Buku
-    # buku1 = Buku("Python Dasar", "Guido van Rossum", 2023, "978-001")
-    # buku2 = Buku("Data Science dengan Python", "Jake VanderPlas", 2022, "978-002")
-    # buku3 = Buku("Machine Learning", "Andrew Ng", 2021, "978-003")
-    # buku4 = Buku("Algoritma & Pemrograman", "Thomas Cormen", 2020, "978-004")
-    # buku5 = Buku("Artificial Intelligence", "Stuart Russell", 2019, "978-005")
+    buku1 = Buku("Python Dasar", "Guido van Rossum", 2023, "978-001")
+    buku2 = Buku("Data Science dengan Python", "Jake VanderPlas", 2022, "978-002")
+    buku3 = Buku("Machine Learning", "Andrew Ng", 2021, "978-003")
+    buku4 = Buku("Algoritma & Pemrograman", "Thomas Cormen", 2020, "978-004")
+    buku5 = Buku("Artificial Intelligence", "Stuart Russell", 2019, "978-005")
 
-    # TODO: Buat objek Perpustakaan
-    # perpus = Perpustakaan("Perpustakaan Unismuh Makassar")
+    perpus = Perpustakaan("Perpustakaan Unismuh Makassar")
 
-    # TODO: Tambahkan semua buku ke perpustakaan
-    # for buku in [buku1, buku2, buku3, buku4, buku5]:
-    #     perpus.tambah_buku(buku)
+    for buku in [buku1, buku2, buku3, buku4, buku5]:
+        perpus.tambah_buku(buku)
+    perpus.tambah_buku(buku1)  # ISBN duplikat, harus ditolak
 
-    # TODO: Tampilkan semua buku
-    # print("=== DAFTAR BUKU ===")
-    # perpus.tampilkan_semua()
+    print("=== DAFTAR BUKU ===")
+    perpus.tampilkan_semua()
 
-    # TODO: Cari buku
-    # print("\n=== CARI BUKU: 'python' ===")
-    # hasil = perpus.cari_buku("python")
-    # for buku in hasil:
-    #     print(f"  - {buku}")
+    print("\n=== CARI BUKU: 'python' ===")
+    for buku in perpus.cari_buku("python"):
+        print(f"  - {buku}")
 
-    # TODO: Pinjam buku
-    # print("\n=== PINJAM BUKU ===")
-    # print(perpus.pinjam_buku("978-001"))
-    # print(perpus.pinjam_buku("978-001"))  # coba pinjam lagi (sudah dipinjam)
+    print("\n=== PINJAM BUKU ===")
+    print(perpus.pinjam_buku("978-001"))
+    print(perpus.pinjam_buku("978-001"))  # sudah dipinjam
+    print(perpus.pinjam_buku("999-999"))  # tidak ditemukan
 
-    # TODO: Tampilkan setelah peminjaman
-    # print("\n=== DAFTAR BUKU (setelah peminjaman) ===")
-    # perpus.tampilkan_semua()
+    print("\n=== DAFTAR BUKU (setelah peminjaman) ===")
+    perpus.tampilkan_semua()
 
-    # TODO: Kembalikan buku
-    # print("\n=== KEMBALIKAN BUKU ===")
-    # print(perpus.kembalikan_buku("978-001"))
+    print("\n=== KEMBALIKAN BUKU ===")
+    print(perpus.kembalikan_buku("978-001"))
+    print(perpus.kembalikan_buku("978-001"))  # sudah tersedia
 
-    # TODO: Test __repr__
-    # print("\n=== REPR ===")
-    # print(repr(buku1))
-
-    pass
+    print("\n=== REPR ===")
+    print(repr(buku1))

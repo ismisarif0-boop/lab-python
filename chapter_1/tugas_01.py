@@ -30,25 +30,34 @@
 """
 
 # ── Deklarasi Variabel ────────────────────────────────────────────────────────
-# TODO: Deklarasikan variabel berikut dengan data Anda sendiri
-nama_lengkap = ...  # str: nama lengkap mahasiswa
-nim = ...  # str: Nomor Induk Mahasiswa
-jurusan = ...  # str: nama jurusan
-semester = ...  # int: semester saat ini
-ipk = ...  # float: Indeks Prestasi Kumulatif
-status_aktif = ...  # bool: apakah masih aktif kuliah
+nama_lengkap = "Ahmad Fauzi"  # str: nama lengkap mahasiswa
+nim = "105841100123"  # str: Nomor Induk Mahasiswa
+jurusan = "Informatika"  # str: nama jurusan
+semester = 4  # int: semester saat ini
+ipk = 3.75  # float: Indeks Prestasi Kumulatif
+status_aktif = True  # bool: apakah masih aktif kuliah
 
 
 # ── Tampilkan Biodata ─────────────────────────────────────────────────────────
-# TODO: Tampilkan semua data menggunakan f-string
-# Contoh: print(f"Nama    : {nama_lengkap}")
+print("===== BIODATA MAHASISWA =====")
+print(f"Nama    : {nama_lengkap}")
+print(f"NIM     : {nim}")
+print(f"Jurusan : {jurusan}")
+print(f"Semester: {semester}")
+print(f"IPK     : {ipk:.2f}")
+print(f"Aktif   : {status_aktif}")
+print("=============================")
 
 
 # ── Tampilkan Tipe Data ──────────────────────────────────────────────────────
-# TODO: Tampilkan tipe data setiap variabel menggunakan type()
-# Contoh: print(f"Tipe 'nama'    : {type(nama_lengkap)}")
+print(f"Tipe 'nama'    : {type(nama_lengkap)}")
+print(f"Tipe 'nim'     : {type(nim)}")
+print(f"Tipe 'jurusan' : {type(jurusan)}")
+print(f"Tipe 'semester': {type(semester)}")
+print(f"Tipe 'ipk'     : {type(ipk)}")
+print(f"Tipe 'aktif'   : {type(status_aktif)}")
 
 
 # ── Pemeriksaan isinstance() ─────────────────────────────────────────────────
-# TODO: Gunakan isinstance() untuk memeriksa tipe data
-# Contoh: print(f"NIM adalah str? {isinstance(nim, str)}")
+print(f"NIM adalah str?     {isinstance(nim, str)}")
+print(f"Semester adalah int? {isinstance(semester, int)}")

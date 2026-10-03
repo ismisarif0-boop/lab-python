@@ -35,29 +35,23 @@
 ==========================================================
 """
 
-# TODO: Uncomment import yang diperlukan
-# import numpy as np
-# from sklearn.model_selection import train_test_split
-# from sklearn.preprocessing import StandardScaler, LabelEncoder
-# from sklearn.metrics import (
-#     accuracy_score,
-#     classification_report,
-#     confusion_matrix,
-#     mean_squared_error,
-#     mean_absolute_error,
-#     r2_score,
-# )
-#
-# --- Import untuk Opsi A (Klasifikasi) ---
-# from sklearn.neighbors import KNeighborsClassifier
-# from sklearn.tree import DecisionTreeClassifier
-# from sklearn.ensemble import RandomForestClassifier
-# from sklearn.linear_model import LogisticRegression
-#
-# --- Import untuk Opsi B (Regresi) ---
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import (
+    accuracy_score,
+    classification_report,
+    confusion_matrix,
+)
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+
+# Opsi B (regresi) tidak dikerjakan; instruksi: pilih SALAH SATU opsi.
+# Import untuk Opsi B bila dikerjakan:
+# from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 # from sklearn.linear_model import LinearRegression
 # from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-# from sklearn.preprocessing import PolynomialFeatures
 
 
 # ╔════════════════════════════════════════════════════════════════════════════╗
@@ -87,44 +81,38 @@ def buat_dataset_beasiswa(n_samples=200, random_state=42):
     Returns:
         tuple: (X, y, feature_names)
     """
-    # TODO: Set random seed
-    # np.random.seed(random_state)
-    #
-    # TODO: Generate fitur-fitur
-    # ipk = np.random.uniform(2.0, 4.0, n_samples)
-    # penghasilan = np.random.uniform(1_000_000, 20_000_000, n_samples)
-    # semester = np.random.randint(1, 9, n_samples).astype(float)
-    # tanggungan = np.random.randint(1, 7, n_samples).astype(float)
-    # prestasi = np.random.uniform(0, 10, n_samples)
-    #
-    # TODO: Buat target berdasarkan aturan logis
-    # Skor kelayakan = fungsi dari semua fitur
-    # skor = (
-    #     (ipk - 2.0) / 2.0 * 30          # IPK tinggi -> skor tinggi (max 30)
-    #     + (1 - penghasilan / 20_000_000) * 25  # Penghasilan rendah -> skor tinggi (max 25)
-    #     + tanggungan / 6.0 * 15          # Tanggungan banyak -> skor tinggi (max 15)
-    #     + prestasi / 10.0 * 20           # Prestasi tinggi -> skor tinggi (max 20)
-    #     + np.random.normal(0, 5, n_samples)  # noise
-    # )
-    # target = (skor > 45).astype(int)  # Threshold: skor > 45 = Layak
-    #
-    # TODO: Buat feature matrix
-    # X = np.column_stack([ipk, penghasilan, semester, tanggungan, prestasi])
-    # feature_names = ["IPK", "Penghasilan Ortu (Rp)", "Semester",
-    #                  "Tanggungan Ortu", "Skor Prestasi"]
-    #
-    # TODO: Tampilkan info dataset
-    # print(f"Jumlah sampel       : {n_samples}")
-    # print(f"Jumlah fitur        : {len(feature_names)}")
-    # print(f"Distribusi target   :")
-    # print(f"  Layak (1)         : {np.sum(target == 1)} ({np.sum(target == 1)/n_samples*100:.1f}%)")
-    # print(f"  Tidak Layak (0)   : {np.sum(target == 0)} ({np.sum(target == 0)/n_samples*100:.1f}%)")
-    # print(f"\nStatistik fitur:")
-    # for i, name in enumerate(feature_names):
-    #     print(f"  {name:25s}: min={X[:, i].min():.2f}, max={X[:, i].max():.2f}")
-    #
-    # return X, target, feature_names
-    ...
+    np.random.seed(random_state)
+
+    ipk = np.random.uniform(2.0, 4.0, n_samples)
+    penghasilan = np.random.uniform(1_000_000, 20_000_000, n_samples)
+    semester = np.random.randint(1, 9, n_samples).astype(float)
+    tanggungan = np.random.randint(1, 7, n_samples).astype(float)
+    prestasi = np.random.uniform(0, 10, n_samples)
+
+    # Skor kelayakan = fungsi dari semua fitur (aturan beasiswa + noise)
+    skor = (
+        (ipk - 2.0) / 2.0 * 30          # IPK tinggi -> skor tinggi (max 30)
+        + (1 - penghasilan / 20_000_000) * 25  # Penghasilan rendah -> skor tinggi (max 25)
+        + tanggungan / 6.0 * 15          # Tanggungan banyak -> skor tinggi (max 15)
+        + prestasi / 10.0 * 20           # Prestasi tinggi -> skor tinggi (max 20)
+        + np.random.normal(0, 5, n_samples)  # noise
+    )
+    target = (skor > 45).astype(int)  # Threshold: skor > 45 = Layak
+
+    X = np.column_stack([ipk, penghasilan, semester, tanggungan, prestasi])
+    feature_names = ["IPK", "Penghasilan Ortu (Rp)", "Semester",
+                     "Tanggungan Ortu", "Skor Prestasi"]
+
+    print(f"Jumlah sampel       : {n_samples}")
+    print(f"Jumlah fitur        : {len(feature_names)}")
+    print("Distribusi target   :")
+    print(f"  Layak (1)         : {np.sum(target == 1)} ({np.sum(target == 1)/n_samples*100:.1f}%)")
+    print(f"  Tidak Layak (0)   : {np.sum(target == 0)} ({np.sum(target == 0)/n_samples*100:.1f}%)")
+    print("\nStatistik fitur:")
+    for i, name in enumerate(feature_names):
+        print(f"  {name:25s}: min={X[:, i].min():.2f}, max={X[:, i].max():.2f}")
+
+    return X, target, feature_names
 
 
 # ============================================
@@ -141,24 +129,30 @@ def preprocessing_beasiswa(X, y):
         tuple: (X_train, X_test, y_train, y_test,
                 X_train_scaled, X_test_scaled, scaler)
     """
-    # TODO: Train/test split 80:20, random_state=42, stratify=y
-    # X_train, X_test, y_train, y_test = train_test_split(
-    #     X, y, test_size=0.2, random_state=42, stratify=y
-    # )
-    #
-    # TODO: Scaling
-    # scaler = StandardScaler()
-    # X_train_scaled = scaler.fit_transform(X_train)
-    # X_test_scaled = scaler.transform(X_test)
-    #
-    # TODO: Tampilkan info
-    # print(f"Training : {len(X_train)} sampel")
-    # print(f"Testing  : {len(X_test)} sampel")
-    # print(f"Train - Layak: {np.sum(y_train==1)}, Tidak: {np.sum(y_train==0)}")
-    # print(f"Test  - Layak: {np.sum(y_test==1)}, Tidak: {np.sum(y_test==0)}")
-    #
-    # return X_train, X_test, y_train, y_test, X_train_scaled, X_test_scaled, scaler
-    ...
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+
+    # Handling outlier: clip ke [Q1 - 1.5*IQR, Q3 + 1.5*IQR] dari data training
+    q1, q3 = np.percentile(X_train, [25, 75], axis=0)
+    iqr = q3 - q1
+    batas_bawah, batas_atas = q1 - 1.5 * iqr, q3 + 1.5 * iqr
+    n_outlier = int(np.sum((X_train < batas_bawah) | (X_train > batas_atas)))
+    X_train = np.clip(X_train, batas_bawah, batas_atas)
+    X_test = np.clip(X_test, batas_bawah, batas_atas)
+    print(f"Outlier (aturan IQR) pada data training: {n_outlier} nilai di-clip")
+
+    # Scaler hanya di-fit pada data training agar tidak terjadi data leakage
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+
+    print(f"Training : {len(X_train)} sampel")
+    print(f"Testing  : {len(X_test)} sampel")
+    print(f"Train - Layak: {np.sum(y_train == 1)}, Tidak: {np.sum(y_train == 0)}")
+    print(f"Test  - Layak: {np.sum(y_test == 1)}, Tidak: {np.sum(y_test == 0)}")
+
+    return X_train, X_test, y_train, y_test, X_train_scaled, X_test_scaled, scaler
 
 
 # ============================================
@@ -176,40 +170,41 @@ def train_model_klasifikasi(X_train, X_test, y_train, y_test):
     Returns:
         dict: {nama_model: (model, accuracy, y_pred)}
     """
-    # TODO: Train Model 1 - Random Forest
-    # print("--- Model 1: Random Forest ---")
-    # rf = RandomForestClassifier(n_estimators=100, random_state=42)
-    # rf.fit(X_train, y_train)
-    # y_pred_rf = rf.predict(X_test)
-    # acc_rf = accuracy_score(y_test, y_pred_rf)
-    # print(f"Accuracy: {acc_rf:.4f} ({acc_rf*100:.1f}%)")
-    # print(f"Classification Report:\n{classification_report(y_test, y_pred_rf, target_names=['Tidak Layak', 'Layak'])}")
-    # print(f"Confusion Matrix:\n{confusion_matrix(y_test, y_pred_rf)}\n")
-    #
-    # TODO: Train Model 2 - Logistic Regression
-    # print("--- Model 2: Logistic Regression ---")
-    # lr = LogisticRegression(random_state=42, max_iter=1000)
-    # lr.fit(X_train, y_train)
-    # y_pred_lr = lr.predict(X_test)
-    # acc_lr = accuracy_score(y_test, y_pred_lr)
-    # print(f"Accuracy: {acc_lr:.4f} ({acc_lr*100:.1f}%)")
-    # print(f"Classification Report:\n{classification_report(y_test, y_pred_lr, target_names=['Tidak Layak', 'Layak'])}")
-    # print(f"Confusion Matrix:\n{confusion_matrix(y_test, y_pred_lr)}\n")
-    #
-    # TODO: (Opsional) Train Model 3 - KNN
-    # print("--- Model 3: KNN (k=5) ---")
-    # knn = KNeighborsClassifier(n_neighbors=5)
-    # knn.fit(X_train, y_train)
-    # y_pred_knn = knn.predict(X_test)
-    # acc_knn = accuracy_score(y_test, y_pred_knn)
-    # print(f"Accuracy: {acc_knn:.4f} ({acc_knn*100:.1f}%)")
-    #
-    # return {
-    #     "Random Forest": (rf, acc_rf, y_pred_rf),
-    #     "Logistic Regression": (lr, acc_lr, y_pred_lr),
-    #     "KNN (k=5)": (knn, acc_knn, y_pred_knn),
-    # }
-    ...
+    nama_kelas = ["Tidak Layak", "Layak"]
+
+    print("--- Model 1: Random Forest ---")
+    rf = RandomForestClassifier(n_estimators=100, random_state=42)
+    rf.fit(X_train, y_train)
+    y_pred_rf = rf.predict(X_test)
+    acc_rf = accuracy_score(y_test, y_pred_rf)
+    print(f"Accuracy: {acc_rf:.4f} ({acc_rf*100:.1f}%)")
+    laporan_rf = classification_report(y_test, y_pred_rf, target_names=nama_kelas)
+    print(f"Classification Report:\n{laporan_rf}")
+    print(f"Confusion Matrix:\n{confusion_matrix(y_test, y_pred_rf)}\n")
+
+    print("--- Model 2: Logistic Regression ---")
+    lr = LogisticRegression(random_state=42, max_iter=1000)
+    lr.fit(X_train, y_train)
+    y_pred_lr = lr.predict(X_test)
+    acc_lr = accuracy_score(y_test, y_pred_lr)
+    print(f"Accuracy: {acc_lr:.4f} ({acc_lr*100:.1f}%)")
+    laporan_lr = classification_report(y_test, y_pred_lr, target_names=nama_kelas)
+    print(f"Classification Report:\n{laporan_lr}")
+    print(f"Confusion Matrix:\n{confusion_matrix(y_test, y_pred_lr)}\n")
+
+    print("--- Model 3: KNN (k=5) ---")
+    knn = KNeighborsClassifier(n_neighbors=5)
+    knn.fit(X_train, y_train)
+    y_pred_knn = knn.predict(X_test)
+    acc_knn = accuracy_score(y_test, y_pred_knn)
+    print(f"Accuracy: {acc_knn:.4f} ({acc_knn*100:.1f}%)")
+    print(f"Confusion Matrix:\n{confusion_matrix(y_test, y_pred_knn)}")
+
+    return {
+        "Random Forest": (rf, acc_rf, y_pred_rf),
+        "Logistic Regression": (lr, acc_lr, y_pred_lr),
+        "KNN (k=5)": (knn, acc_knn, y_pred_knn),
+    }
 
 
 # ============================================
@@ -223,45 +218,43 @@ def perbandingan_dan_prediksi_klasifikasi(hasil_models, scaler, feature_names):
         scaler: StandardScaler.
         feature_names (list): Nama fitur.
     """
-    # TODO: Tabel perbandingan
-    # print("--- Perbandingan Model ---")
-    # print(f"{'No':>2} | {'Model':<25} | {'Accuracy':>10} | Visualisasi")
-    # print("-" * 60)
-    # sorted_models = sorted(hasil_models.items(), key=lambda x: x[1][1], reverse=True)
-    # for i, (name, (model, acc, _)) in enumerate(sorted_models, 1):
-    #     bar = "#" * int(acc * 30)
-    #     marker = " <- TERBAIK" if i == 1 else ""
-    #     print(f"{i:>2} | {name:<25} | {acc:>9.1%} | {bar}{marker}")
-    #
-    # TODO: Prediksi dengan model terbaik
-    # best_name, (best_model, best_acc, _) = sorted_models[0]
-    # print(f"\nModel terbaik: {best_name} ({best_acc:.1%})")
-    #
-    # TODO: Prediksi mahasiswa baru
-    # print("\n--- Prediksi Kelayakan Beasiswa ---")
-    # mahasiswa_baru = np.array([
-    #     [3.8, 3_000_000, 5, 4, 8],    # IPK tinggi, penghasilan rendah
-    #     [2.5, 15_000_000, 3, 1, 2],   # IPK rendah, penghasilan tinggi
-    #     [3.2, 8_000_000, 6, 3, 6],    # Menengah
-    #     [3.9, 2_000_000, 4, 5, 9],    # Sangat layak
-    #     [2.1, 18_000_000, 2, 1, 1],   # Sangat tidak layak
-    # ])
-    #
-    # mhs_scaled = scaler.transform(mahasiswa_baru)
-    # prediksi = best_model.predict(mhs_scaled)
-    #
-    # label_map = {0: "Tidak Layak", 1: "Layak"}
-    # print(f"{'No':>2} | {'IPK':>4} | {'Penghasilan':>14} | {'Smt':>3} | {'Tgg':>3} | {'Pres':>4} | {'Hasil':<12}")
-    # print("-" * 65)
-    # for i, (mhs, pred) in enumerate(zip(mahasiswa_baru, prediksi), 1):
-    #     print(f"{i:>2} | {mhs[0]:>4.1f} | Rp{mhs[1]:>11,.0f} | {mhs[2]:>3.0f} | {mhs[3]:>3.0f} | {mhs[4]:>4.1f} | {label_map[pred]:<12}")
-    #
-    # if hasattr(best_model, 'predict_proba'):
-    #     probas = best_model.predict_proba(mhs_scaled)
-    #     print("\nProbabilitas:")
-    #     for i, (pred, prob) in enumerate(zip(prediksi, probas), 1):
-    #         print(f"  Mahasiswa {i}: Tidak Layak={prob[0]:.1%}, Layak={prob[1]:.1%}")
-    ...
+    print("--- Perbandingan Model ---")
+    print(f"{'No':>2} | {'Model':<25} | {'Accuracy':>10} | Visualisasi")
+    print("-" * 60)
+    sorted_models = sorted(hasil_models.items(), key=lambda x: x[1][1], reverse=True)
+    for i, (name, (model, acc, _)) in enumerate(sorted_models, 1):
+        bar = "#" * int(acc * 30)
+        marker = " <- TERBAIK" if i == 1 else ""
+        print(f"{i:>2} | {name:<25} | {acc:>9.1%} | {bar}{marker}")
+
+    best_name, (best_model, best_acc, _) = sorted_models[0]
+    print(f"\nModel terbaik: {best_name} ({best_acc:.1%})")
+
+    print("\n--- Prediksi Kelayakan Beasiswa ---")
+    mahasiswa_baru = np.array([
+        [3.8, 3_000_000, 5, 4, 8],    # IPK tinggi, penghasilan rendah
+        [2.5, 15_000_000, 3, 1, 2],   # IPK rendah, penghasilan tinggi
+        [3.2, 8_000_000, 6, 3, 6],    # Menengah
+        [3.9, 2_000_000, 4, 5, 9],    # Sangat layak
+        [2.1, 18_000_000, 2, 1, 1],   # Sangat tidak layak
+    ])
+
+    mhs_scaled = scaler.transform(mahasiswa_baru)
+    prediksi = best_model.predict(mhs_scaled)
+
+    label_map = {0: "Tidak Layak", 1: "Layak"}
+    print(f"{'No':>2} | {'IPK':>4} | {'Penghasilan':>14} | {'Smt':>3} | "
+          f"{'Tgg':>3} | {'Pres':>4} | {'Hasil':<12}")
+    print("-" * 65)
+    for i, (mhs, pred) in enumerate(zip(mahasiswa_baru, prediksi), 1):
+        print(f"{i:>2} | {mhs[0]:>4.1f} | Rp{mhs[1]:>11,.0f} | {mhs[2]:>3.0f} | "
+              f"{mhs[3]:>3.0f} | {mhs[4]:>4.1f} | {label_map[pred]:<12}")
+
+    if hasattr(best_model, "predict_proba"):
+        probas = best_model.predict_proba(mhs_scaled)
+        print("\nProbabilitas:")
+        for i, (pred, prob) in enumerate(zip(prediksi, probas), 1):
+            print(f"  Mahasiswa {i}: Tidak Layak={prob[0]:.1%}, Layak={prob[1]:.1%}")
 
 
 # ╔════════════════════════════════════════════════════════════════════════════╗
@@ -489,74 +482,70 @@ def perbandingan_dan_prediksi_regresi(hasil_models, scaler, feature_names):
 
 def kesimpulan():
     """Tulis kesimpulan proyek ML pipeline."""
-    # TODO: Tulis kesimpulan berdasarkan opsi yang dikerjakan
-    # Jawab pertanyaan berikut:
-    # 1. Opsi mana yang dikerjakan (A atau B)?
-    # 2. Model mana yang terbaik? Mengapa?
-    # 3. Apa insight menarik dari data?
-    # 4. Apa limitasi dari model ini?
-    # 5. Apa saran pengembangan ke depan?
-    #
-    # Contoh:
-    # print("=" * 50)
-    # print("KESIMPULAN PROYEK ML PIPELINE")
-    # print("=" * 50)
-    # print("""
-    # 1. Proyek yang dikerjakan: Opsi A / Opsi B
-    #
-    # 2. Model terbaik: ...
-    #    Alasan: ...
-    #
-    # 3. Insight menarik:
-    #    - ...
-    #    - ...
-    #
-    # 4. Limitasi model:
-    #    - Dataset sintetis (bukan data real)
-    #    - Fitur terbatas
-    #    - Belum ada cross-validation
-    #
-    # 5. Saran pengembangan:
-    #    - Gunakan dataset real
-    #    - Tambah fitur yang relevan
-    #    - Coba teknik cross-validation
-    #    - Coba hyperparameter tuning (GridSearch)
-    #    - Tambahkan visualisasi (matplotlib/seaborn)
-    # """)
-    ...
+    # Berdasarkan hasil run (random_state=42, 160 data latih, 40 data uji):
+    #   KNN (k=5) 0.8750 | Logistic Regression 0.8500 | Random Forest 0.8250
+    print("=" * 50)
+    print("KESIMPULAN PROYEK ML PIPELINE")
+    print("=" * 50)
+    print("""
+1. Proyek yang dikerjakan: Opsi A (klasifikasi kelayakan beasiswa).
+
+2. Model terbaik: KNN (k=5), accuracy 87.5% pada 40 data uji.
+   Alasan: accuracy tertinggi dan hanya 5 salah prediksi (2 Tidak Layak
+   dikira Layak, 3 Layak dikira Tidak Layak). Perbedaan antar model hanya
+   1-2 sampel (2.5%-5%), jadi ketiganya setara secara praktis. Logistic
+   Regression (85.0%) layak dipilih bila butuh model yang mudah dijelaskan.
+   Random Forest paling rendah accuracy-nya (82.5%) tetapi recall kelas Layak
+   tertinggi (0.89): bila prioritas adalah tidak melewatkan calon penerima,
+   Random Forest bisa menjadi pilihan.
+
+3. Insight menarik:
+   - Kelas cukup seimbang (46% Layak, 54% Tidak Layak), sehingga accuracy
+     cukup representatif sebagai metrik.
+   - Target dibuat dari IPK (30 poin), penghasilan ortu (25), prestasi (20)
+     dan tanggungan (15); semester tidak berpengaruh pada aturan kelayakan.
+   - Data baru dengan IPK tinggi dan penghasilan rendah diprediksi Layak
+     (probabilitas 100%), sedangkan IPK rendah dengan penghasilan tinggi
+     Tidak Layak. Profil menengah (mahasiswa 3) paling tidak pasti
+     (Layak 60%), sehingga cocok ditinjau manual.
+   - Tahap outlier (aturan IQR) tidak mengubah data (0 nilai) karena fitur
+     simulasi berdistribusi seragam tanpa pencilan.
+
+4. Limitasi model:
+   - Dataset sintetis (bukan data real) dan ada noise acak pada target
+   - Data uji hanya 40 sampel, hasil bisa berubah jika random_state berbeda
+   - Belum ada cross-validation maupun hyperparameter tuning
+   - KNN sensitif terhadap scaling dan lambat bila data sangat besar
+
+5. Saran pengembangan:
+   - Gunakan dataset real dan tambah fitur yang relevan
+   - Coba cross-validation untuk estimasi performa yang lebih stabil
+   - Coba hyperparameter tuning (GridSearch)
+   - Tambahkan visualisasi (matplotlib)
+""")
 
 
 # ── Main Program ─────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    # =============================================
-    # Pilih salah satu opsi: uncomment yang dipilih
-    # =============================================
+    # Opsi A dipilih; Opsi B (regresi biaya kos) tidak dikerjakan.
+    print("=" * 60)
+    print("TUGAS 4 - OPSI A: KLASIFIKASI KELAYAKAN BEASISWA")
+    print("=" * 60)
 
-    # --- OPSI A: Klasifikasi Kelayakan Beasiswa ---
-    # print("=" * 60)
-    # print("TUGAS 4 - OPSI A: KLASIFIKASI KELAYAKAN BEASISWA")
-    # print("=" * 60)
-    #
-    # # A1. Buat dataset
-    # print("\n=== 1. Membuat Dataset ===")
-    # X, y, feature_names = buat_dataset_beasiswa()
-    #
-    # # A2. Preprocessing
-    # print("\n=== 2. Preprocessing ===")
-    # X_train, X_test, y_train, y_test, X_train_s, X_test_s, scaler = preprocessing_beasiswa(X, y)
-    #
-    # # A3. Train model
-    # print("\n=== 3. Training & Evaluasi Model ===")
-    # hasil = train_model_klasifikasi(X_train_s, X_test_s, y_train, y_test)
-    #
-    # # A4. Perbandingan dan prediksi
-    # print("\n=== 4. Perbandingan & Prediksi ===")
-    # perbandingan_dan_prediksi_klasifikasi(hasil, scaler, feature_names)
-    #
-    # # Kesimpulan
-    # print("\n=== 5. Kesimpulan ===")
-    # kesimpulan()
+    print("\n=== 1. Membuat Dataset ===")
+    X, y, feature_names = buat_dataset_beasiswa()
 
+    print("\n=== 2. Preprocessing ===")
+    X_train, X_test, y_train, y_test, X_train_s, X_test_s, scaler = preprocessing_beasiswa(X, y)
+
+    print("\n=== 3. Training & Evaluasi Model ===")
+    hasil = train_model_klasifikasi(X_train_s, X_test_s, y_train, y_test)
+
+    print("\n=== 4. Perbandingan & Prediksi ===")
+    perbandingan_dan_prediksi_klasifikasi(hasil, scaler, feature_names)
+
+    print("\n=== 5. Kesimpulan ===")
+    kesimpulan()
     # --- OPSI B: Regresi Prediksi Biaya Kos ---
     # print("=" * 60)
     # print("TUGAS 4 - OPSI B: REGRESI PREDIKSI BIAYA KOS")

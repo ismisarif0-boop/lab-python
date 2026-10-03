@@ -29,9 +29,25 @@ def kalkulator(a, b, operasi="+"):
     Returns:
         float: Hasil perhitungan, atau None jika operasi tidak valid.
     """
-    # TODO: Implementasikan kalkulator
-    # Jangan lupa tangani pembagian dengan nol!
-    ...
+    if operasi == "+":
+        return a + b
+    elif operasi == "-":
+        return a - b
+    elif operasi == "*":
+        return a * b
+    elif operasi in ("/", "//", "%"):
+        if b == 0:
+            print("Error: pembagian dengan nol!")
+            return None
+        if operasi == "/":
+            return a / b
+        elif operasi == "//":
+            return a // b
+        return a % b
+    elif operasi == "**":
+        return a ** b
+    print(f"Error: operasi '{operasi}' tidak dikenal")
+    return None
 
 
 def statistik(*args):
@@ -43,9 +59,13 @@ def statistik(*args):
     Returns:
         dict: {"min": ..., "max": ..., "sum": ..., "mean": ..., "count": ...}
     """
-    # TODO: Implementasikan menggunakan *args
-    # Hint: args adalah tuple, bisa pakai min(), max(), sum(), len()
-    ...
+    return {
+        "min": min(args),
+        "max": max(args),
+        "sum": sum(args),
+        "mean": sum(args) / len(args),
+        "count": len(args),
+    }
 
 
 def format_output(**kwargs):
@@ -54,41 +74,32 @@ def format_output(**kwargs):
     Args:
         **kwargs: Pasangan key-value yang akan dicetak.
     """
-    # TODO: Implementasikan menggunakan **kwargs
-    # Contoh:
-    # for key, value in kwargs.items():
-    #     print(f"  {key:<15}: {value}")
-    ...
+    for key, value in kwargs.items():
+        print(f"  {key:<15}: {value}")
 
 
 # ── Demonstrasi ──────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    # TODO: Demonstrasi kalkulator
-    # print("=== Kalkulator ===")
-    # print(f"10 + 3 = {kalkulator(10, 3, '+')}")
-    # print(f"10 / 0 = {kalkulator(10, 0, '/')}")  # tangani error
+    print("=== Kalkulator ===")
+    for op in ("+", "-", "*", "/", "//", "%", "**"):
+        print(f"10 {op} 3 = {kalkulator(10, 3, op)}")
+    print(f"10 (default) 3 = {kalkulator(10, 3)}")
+    print(f"10 / 0 = {kalkulator(10, 0, '/')}")
 
-    # TODO: Demonstrasi statistik(*args)
-    # print("\n=== Statistik ===")
-    # hasil = statistik(85, 90, 78, 92, 65, 88, 73)
-    # print(hasil)
+    print("\n=== Statistik ===")
+    hasil = statistik(85, 90, 78, 92, 65, 88, 73)
+    print(hasil)
 
-    # TODO: Demonstrasi format_output(**kwargs)
-    # print("\n=== Format Output ===")
-    # format_output(nama="Ahmad", nim="105841100123", jurusan="Informatika")
+    print("\n=== Format Output ===")
+    format_output(nama="Ahmad", nim="105841100123", jurusan="Informatika")
 
-    # TODO: Lambda + map() -> hitung kuadrat dari list
-    # angka = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    # kuadrat = list(map(lambda x: x ** 2, angka))
-    # print(f"\nKuadrat: {kuadrat}")
+    angka = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    kuadrat = list(map(lambda x: x ** 2, angka))
+    print(f"\nKuadrat: {kuadrat}")
 
-    # TODO: Lambda + filter() -> saring bilangan genap
-    # genap = list(filter(lambda x: x % 2 == 0, angka))
-    # print(f"Genap  : {genap}")
+    genap = list(filter(lambda x: x % 2 == 0, angka))
+    print(f"Genap  : {genap}")
 
-    # TODO: Lambda + sorted() -> urutkan list of tuple
-    # mahasiswa = [("Ahmad", 85), ("Siti", 92), ("Budi", 78), ("Dewi", 90)]
-    # by_nilai = sorted(mahasiswa, key=lambda x: x[1], reverse=True)
-    # print(f"\nUrut by nilai: {by_nilai}")
-
-    pass
+    mahasiswa = [("Ahmad", 85), ("Siti", 92), ("Budi", 78), ("Dewi", 90)]
+    by_nilai = sorted(mahasiswa, key=lambda x: x[1], reverse=True)
+    print(f"\nUrut by nilai: {by_nilai}")

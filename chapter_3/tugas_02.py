@@ -29,8 +29,8 @@ def pola_segitiga(n):
      ***
     ****
     """
-    # TODO: Implementasikan
-    ...
+    for i in range(1, n + 1):
+        print(" " * (n - i) + "*" * i)
 
 
 def pola_segitiga_terbalik(n):
@@ -45,8 +45,8 @@ def pola_segitiga_terbalik(n):
       **
        *
     """
-    # TODO: Implementasikan
-    ...
+    for i in range(n, 0, -1):
+        print(" " * (n - i) + "*" * i)
 
 
 def pola_diamond(n):
@@ -66,10 +66,11 @@ def pola_diamond(n):
        ***
         *
     """
-    # TODO: Implementasikan
-    # Hint: bagian atas menggunakan range(1, n+1)
-    #        bagian bawah menggunakan range(n-1, 0, -1)
-    ...
+    # Bagian atas membesar, bagian bawah mengecil tanpa mengulang baris tengah
+    for i in range(1, n + 1):
+        print(" " * (n - i) + "*" * (2 * i - 1))
+    for i in range(n - 1, 0, -1):
+        print(" " * (n - i) + "*" * (2 * i - 1))
 
 
 def deret_fibonacci(n):
@@ -81,8 +82,12 @@ def deret_fibonacci(n):
     Returns:
         list: Deret Fibonacci. Contoh (n=8): [0, 1, 1, 2, 3, 5, 8, 13]
     """
-    # TODO: Implementasikan
-    ...
+    deret = []
+    a, b = 0, 1
+    for _ in range(n):
+        deret.append(a)
+        a, b = b, a + b
+    return deret
 
 
 def is_prima(n):
@@ -94,31 +99,27 @@ def is_prima(n):
     Returns:
         bool: True jika prima, False jika bukan.
     """
-    # TODO: Implementasikan
-    # Hint: prima > 1 dan tidak habis dibagi bilangan 2..sqrt(n)
-    ...
+    if n < 2:
+        return False
+    for pembagi in range(2, int(n ** 0.5) + 1):
+        if n % pembagi == 0:
+            return False
+    return True
 
 
 # ── Demonstrasi ──────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    # TODO: Tampilkan pola segitiga (n=5)
-    # print("=== Pola Segitiga (n=5) ===")
-    # pola_segitiga(5)
+    print("=== Pola Segitiga (n=5) ===")
+    pola_segitiga(5)
 
-    # TODO: Tampilkan pola segitiga terbalik (n=5)
-    # print("\n=== Pola Segitiga Terbalik (n=5) ===")
-    # pola_segitiga_terbalik(5)
+    print("\n=== Pola Segitiga Terbalik (n=5) ===")
+    pola_segitiga_terbalik(5)
 
-    # TODO: Tampilkan pola diamond (n=5)
-    # print("\n=== Pola Diamond (n=5) ===")
-    # pola_diamond(5)
+    print("\n=== Pola Diamond (n=5) ===")
+    pola_diamond(5)
 
-    # TODO: Tampilkan 15 bilangan Fibonacci
-    # print(f"\nFibonacci (15): {deret_fibonacci(15)}")
+    print(f"\nFibonacci (15): {deret_fibonacci(15)}")
 
-    # TODO: Tampilkan bilangan prima 1-100 menggunakan filter()
-    # bilangan_prima = list(filter(is_prima, range(1, 101)))
-    # print(f"\nBilangan prima (1-100): {bilangan_prima}")
-    # print(f"Jumlah: {len(bilangan_prima)}")
-
-    pass
+    bilangan_prima = list(filter(is_prima, range(1, 101)))
+    print(f"\nBilangan prima (1-100): {bilangan_prima}")
+    print(f"Jumlah: {len(bilangan_prima)}")

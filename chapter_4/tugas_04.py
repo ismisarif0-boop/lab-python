@@ -54,8 +54,7 @@ class BangunRuang:
         Args:
             nama (str): Nama bangun ruang.
         """
-        # TODO: Inisialisasi atribut nama
-        ...
+        self.nama = nama
 
     def volume(self):
         """Menghitung volume bangun ruang (abstract).
@@ -63,8 +62,7 @@ class BangunRuang:
         Raises:
             NotImplementedError: Harus diimplementasikan oleh subclass.
         """
-        # TODO: raise NotImplementedError
-        ...
+        raise NotImplementedError("Subclass harus mengimplementasikan volume()")
 
     def luas_permukaan(self):
         """Menghitung luas permukaan bangun ruang (abstract).
@@ -72,8 +70,7 @@ class BangunRuang:
         Raises:
             NotImplementedError: Harus diimplementasikan oleh subclass.
         """
-        # TODO: raise NotImplementedError
-        ...
+        raise NotImplementedError("Subclass harus mengimplementasikan luas_permukaan()")
 
     def info(self):
         """Menampilkan informasi lengkap bangun ruang (abstract).
@@ -81,8 +78,7 @@ class BangunRuang:
         Returns:
             str: Informasi meliputi nama, dimensi, volume, luas permukaan.
         """
-        # TODO: raise NotImplementedError
-        ...
+        raise NotImplementedError("Subclass harus mengimplementasikan info()")
 
     def __gt__(self, other):
         """Overload operator > untuk membandingkan volume.
@@ -93,9 +89,7 @@ class BangunRuang:
         Returns:
             bool: True jika volume self > volume other.
         """
-        # TODO: Implementasikan perbandingan volume
-        # Hint: return self.volume() > other.volume()
-        ...
+        return self.volume() > other.volume()
 
     def __eq__(self, other):
         """Overload operator == untuk membandingkan volume.
@@ -106,9 +100,7 @@ class BangunRuang:
         Returns:
             bool: True jika volume sama (toleransi 0.01).
         """
-        # TODO: Implementasikan
-        # Hint: return abs(self.volume() - other.volume()) < 0.01
-        ...
+        return abs(self.volume() - other.volume()) < 0.01
 
     def __lt__(self, other):
         """Overload operator < untuk membandingkan volume.
@@ -119,8 +111,7 @@ class BangunRuang:
         Returns:
             bool: True jika volume self < volume other.
         """
-        # TODO: Implementasikan
-        ...
+        return self.volume() < other.volume()
 
     def __str__(self):
         """Representasi string.
@@ -128,9 +119,7 @@ class BangunRuang:
         Returns:
             str: Contoh -> "Kubus (V=125.00)"
         """
-        # TODO: Implementasikan
-        # Hint: f"{self.nama} (V={self.volume():.2f})"
-        ...
+        return f"{self.nama} (V={self.volume():.2f})"
 
 
 class Kubus(BangunRuang):
@@ -146,9 +135,8 @@ class Kubus(BangunRuang):
         Args:
             sisi (float): Panjang sisi kubus.
         """
-        # TODO: Panggil super().__init__("Kubus")
-        # TODO: Inisialisasi atribut sisi
-        ...
+        super().__init__("Kubus")
+        self.sisi = sisi
 
     def volume(self):
         """Menghitung volume kubus.
@@ -156,8 +144,7 @@ class Kubus(BangunRuang):
         Returns:
             float: Volume = sisi^3
         """
-        # TODO: Implementasikan
-        ...
+        return self.sisi ** 3
 
     def luas_permukaan(self):
         """Menghitung luas permukaan kubus.
@@ -165,8 +152,7 @@ class Kubus(BangunRuang):
         Returns:
             float: Luas = 6 * sisi^2
         """
-        # TODO: Implementasikan
-        ...
+        return 6 * self.sisi ** 2
 
     def info(self):
         """Informasi lengkap kubus.
@@ -174,12 +160,11 @@ class Kubus(BangunRuang):
         Returns:
             str: Informasi meliputi sisi, volume, luas permukaan.
         """
-        # TODO: Implementasikan
-        # Contoh output:
-        # "Kubus [sisi=5]"
-        # "  Volume         : 125.00"
-        # "  Luas Permukaan : 150.00"
-        ...
+        return (
+            f"Kubus [sisi={self.sisi:g}]\n"
+            f"  Volume         : {self.volume():.2f}\n"
+            f"  Luas Permukaan : {self.luas_permukaan():.2f}"
+        )
 
     @classmethod
     def dari_volume(cls, vol):
@@ -191,10 +176,7 @@ class Kubus(BangunRuang):
         Returns:
             Kubus: Objek Kubus dengan sisi yang sesuai.
         """
-        # TODO: Hitung sisi dari volume, lalu buat objek Kubus
-        # Hint: sisi = vol ** (1/3)
-        #       return cls(sisi)
-        ...
+        return cls(vol ** (1 / 3))
 
     @staticmethod
     def is_valid(sisi):
@@ -206,9 +188,7 @@ class Kubus(BangunRuang):
         Returns:
             bool: True jika sisi > 0 dan bertipe numerik.
         """
-        # TODO: Implementasikan
-        # Hint: return isinstance(sisi, (int, float)) and sisi > 0
-        ...
+        return isinstance(sisi, (int, float)) and sisi > 0
 
 
 class Balok(BangunRuang):
@@ -228,9 +208,10 @@ class Balok(BangunRuang):
             lebar (float): Lebar balok.
             tinggi (float): Tinggi balok.
         """
-        # TODO: Panggil super().__init__("Balok")
-        # TODO: Inisialisasi atribut panjang, lebar, tinggi
-        ...
+        super().__init__("Balok")
+        self.panjang = panjang
+        self.lebar = lebar
+        self.tinggi = tinggi
 
     def volume(self):
         """Menghitung volume balok.
@@ -238,8 +219,7 @@ class Balok(BangunRuang):
         Returns:
             float: Volume = panjang * lebar * tinggi
         """
-        # TODO: Implementasikan
-        ...
+        return self.panjang * self.lebar * self.tinggi
 
     def luas_permukaan(self):
         """Menghitung luas permukaan balok.
@@ -247,8 +227,8 @@ class Balok(BangunRuang):
         Returns:
             float: Luas = 2 * (pl + pt + lt)
         """
-        # TODO: Implementasikan
-        ...
+        p, l, t = self.panjang, self.lebar, self.tinggi
+        return 2 * (p * l + p * t + l * t)
 
     def info(self):
         """Informasi lengkap balok.
@@ -256,8 +236,11 @@ class Balok(BangunRuang):
         Returns:
             str: Informasi meliputi dimensi, volume, luas permukaan.
         """
-        # TODO: Implementasikan
-        ...
+        return (
+            f"Balok [p={self.panjang:g}, l={self.lebar:g}, t={self.tinggi:g}]\n"
+            f"  Volume         : {self.volume():.2f}\n"
+            f"  Luas Permukaan : {self.luas_permukaan():.2f}"
+        )
 
     @classmethod
     def dari_kubus(cls, sisi):
@@ -269,8 +252,7 @@ class Balok(BangunRuang):
         Returns:
             Balok: Objek Balok dengan p=l=t=sisi.
         """
-        # TODO: return cls(sisi, sisi, sisi)
-        ...
+        return cls(sisi, sisi, sisi)
 
     @staticmethod
     def is_valid(panjang, lebar, tinggi):
@@ -279,8 +261,8 @@ class Balok(BangunRuang):
         Returns:
             bool: True jika semua dimensi > 0.
         """
-        # TODO: Implementasikan
-        ...
+        return all(isinstance(d, (int, float)) and d > 0
+                   for d in (panjang, lebar, tinggi))
 
 
 class Tabung(BangunRuang):
@@ -298,9 +280,9 @@ class Tabung(BangunRuang):
             jari_jari (float): Jari-jari alas.
             tinggi (float): Tinggi tabung.
         """
-        # TODO: Panggil super().__init__("Tabung")
-        # TODO: Inisialisasi atribut jari_jari dan tinggi
-        ...
+        super().__init__("Tabung")
+        self.jari_jari = jari_jari
+        self.tinggi = tinggi
 
     def volume(self):
         """Menghitung volume tabung.
@@ -308,9 +290,7 @@ class Tabung(BangunRuang):
         Returns:
             float: Volume = pi * r^2 * t
         """
-        # TODO: Implementasikan
-        # Hint: math.pi * self.jari_jari ** 2 * self.tinggi
-        ...
+        return math.pi * self.jari_jari ** 2 * self.tinggi
 
     def luas_permukaan(self):
         """Menghitung luas permukaan tabung.
@@ -318,8 +298,7 @@ class Tabung(BangunRuang):
         Returns:
             float: Luas = 2 * pi * r * (r + t)
         """
-        # TODO: Implementasikan
-        ...
+        return 2 * math.pi * self.jari_jari * (self.jari_jari + self.tinggi)
 
     def info(self):
         """Informasi lengkap tabung.
@@ -327,8 +306,11 @@ class Tabung(BangunRuang):
         Returns:
             str: Informasi meliputi jari-jari, tinggi, volume, luas permukaan.
         """
-        # TODO: Implementasikan
-        ...
+        return (
+            f"Tabung [r={self.jari_jari:g}, t={self.tinggi:g}]\n"
+            f"  Volume         : {self.volume():.2f}\n"
+            f"  Luas Permukaan : {self.luas_permukaan():.2f}"
+        )
 
     @classmethod
     def dari_volume(cls, vol, tinggi):
@@ -341,10 +323,8 @@ class Tabung(BangunRuang):
         Returns:
             Tabung: Objek Tabung dengan jari-jari yang sesuai.
         """
-        # TODO: Hitung jari_jari dari volume dan tinggi
-        # Hint: r = math.sqrt(vol / (math.pi * tinggi))
-        #       return cls(r, tinggi)
-        ...
+        r = math.sqrt(vol / (math.pi * tinggi))
+        return cls(r, tinggi)
 
     @staticmethod
     def is_valid(jari_jari, tinggi):
@@ -353,8 +333,8 @@ class Tabung(BangunRuang):
         Returns:
             bool: True jika jari_jari > 0 dan tinggi > 0.
         """
-        # TODO: Implementasikan
-        ...
+        return all(isinstance(d, (int, float)) and d > 0
+                   for d in (jari_jari, tinggi))
 
 
 class Bola(BangunRuang):
@@ -370,9 +350,8 @@ class Bola(BangunRuang):
         Args:
             jari_jari (float): Jari-jari bola.
         """
-        # TODO: Panggil super().__init__("Bola")
-        # TODO: Inisialisasi atribut jari_jari
-        ...
+        super().__init__("Bola")
+        self.jari_jari = jari_jari
 
     def volume(self):
         """Menghitung volume bola.
@@ -380,9 +359,7 @@ class Bola(BangunRuang):
         Returns:
             float: Volume = 4/3 * pi * r^3
         """
-        # TODO: Implementasikan
-        # Hint: (4/3) * math.pi * self.jari_jari ** 3
-        ...
+        return (4 / 3) * math.pi * self.jari_jari ** 3
 
     def luas_permukaan(self):
         """Menghitung luas permukaan bola.
@@ -390,8 +367,7 @@ class Bola(BangunRuang):
         Returns:
             float: Luas = 4 * pi * r^2
         """
-        # TODO: Implementasikan
-        ...
+        return 4 * math.pi * self.jari_jari ** 2
 
     def info(self):
         """Informasi lengkap bola.
@@ -399,8 +375,11 @@ class Bola(BangunRuang):
         Returns:
             str: Informasi meliputi jari-jari, volume, luas permukaan.
         """
-        # TODO: Implementasikan
-        ...
+        return (
+            f"Bola [r={self.jari_jari:g}]\n"
+            f"  Volume         : {self.volume():.2f}\n"
+            f"  Luas Permukaan : {self.luas_permukaan():.2f}"
+        )
 
     @classmethod
     def dari_volume(cls, vol):
@@ -412,10 +391,8 @@ class Bola(BangunRuang):
         Returns:
             Bola: Objek Bola dengan jari-jari yang sesuai.
         """
-        # TODO: Hitung jari_jari dari volume
-        # Hint: r = ((3 * vol) / (4 * math.pi)) ** (1/3)
-        #       return cls(r)
-        ...
+        r = ((3 * vol) / (4 * math.pi)) ** (1 / 3)
+        return cls(r)
 
     @staticmethod
     def is_valid(jari_jari):
@@ -424,69 +401,72 @@ class Bola(BangunRuang):
         Returns:
             bool: True jika jari_jari > 0.
         """
-        # TODO: Implementasikan
-        ...
+        return isinstance(jari_jari, (int, float)) and jari_jari > 0
 
 
 # ── Demonstrasi ──────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    # TODO: Buat objek dari setiap bangun ruang
-    # kubus = Kubus(5)
-    # balok = Balok(8, 4, 3)
-    # tabung = Tabung(7, 10)
-    # bola = Bola(6)
+    kubus = Kubus(5)
+    balok = Balok(8, 4, 3)
+    tabung = Tabung(7, 10)
+    bola = Bola(6)
 
-    # TODO: Tampilkan info setiap bangun ruang (polymorphism)
-    # print("=== INFO BANGUN RUANG ===")
-    # bangun_list = [kubus, balok, tabung, bola]
-    # for bangun in bangun_list:
-    #     print(bangun.info())
-    #     print()
+    # Polymorphism: info() dipanggil pada tiap objek tanpa peduli class-nya
+    print("=== INFO BANGUN RUANG ===")
+    bangun_list = [kubus, balok, tabung, bola]
+    for bangun in bangun_list:
+        print(bangun.info())
+        print()
 
-    # TODO: Test @classmethod (alternative constructor)
-    # print("=== ALTERNATIVE CONSTRUCTOR (@classmethod) ===")
-    # kubus2 = Kubus.dari_volume(125)
-    # print(f"Kubus dari volume 125: sisi = {kubus2.sisi:.2f}")
-    # print(kubus2.info())
-    #
-    # tabung2 = Tabung.dari_volume(1000, 10)
-    # print(f"\nTabung dari volume 1000 (t=10): r = {tabung2.jari_jari:.2f}")
-    # print(tabung2.info())
+    print("=== ALTERNATIVE CONSTRUCTOR (@classmethod) ===")
+    kubus2 = Kubus.dari_volume(125)
+    print(f"Kubus dari volume 125: sisi = {kubus2.sisi:.2f}")
+    print(kubus2.info())
 
-    # TODO: Test @staticmethod (validasi)
-    # print("\n=== VALIDASI (@staticmethod) ===")
-    # print(f"Kubus.is_valid(5)   = {Kubus.is_valid(5)}")
-    # print(f"Kubus.is_valid(-3)  = {Kubus.is_valid(-3)}")
-    # print(f"Kubus.is_valid('a') = {Kubus.is_valid('a')}")
-    # print(f"Tabung.is_valid(7, 10) = {Tabung.is_valid(7, 10)}")
-    # print(f"Tabung.is_valid(-1, 5) = {Tabung.is_valid(-1, 5)}")
+    tabung2 = Tabung.dari_volume(1000, 10)
+    print(f"\nTabung dari volume 1000 (t=10): r = {tabung2.jari_jari:.2f}")
+    print(tabung2.info())
 
-    # TODO: Test operator overloading (__gt__, __lt__, __eq__)
-    # print("\n=== OPERATOR OVERLOADING ===")
-    # print(f"{kubus} > {balok}  ? {kubus > balok}")
-    # print(f"{tabung} > {bola}  ? {tabung > bola}")
-    # print(f"{kubus} == {kubus2} ? {kubus == kubus2}")
-    # print(f"{kubus} < {bola}   ? {kubus < bola}")
+    bola2 = Bola.dari_volume(1000)
+    print(f"\nBola dari volume 1000: r = {bola2.jari_jari:.2f}")
+    print(f"Balok.dari_kubus(3): {Balok.dari_kubus(3).info()}")
 
-    # TODO: Urutkan bangun ruang berdasarkan volume (sorted + lambda)
-    # print("\n=== URUTAN BERDASARKAN VOLUME ===")
-    # bangun_list = [kubus, balok, tabung, bola]
-    # urut_volume = sorted(bangun_list, key=lambda b: b.volume())
-    # print("Kecil -> Besar:")
-    # for i, b in enumerate(urut_volume, 1):
-    #     print(f"  {i}. {b.nama:<8} -> Volume: {b.volume():>10.2f}")
-    #
-    # print("\nBesar -> Kecil:")
-    # urut_desc = sorted(bangun_list, key=lambda b: b.volume(), reverse=True)
-    # for i, b in enumerate(urut_desc, 1):
-    #     print(f"  {i}. {b.nama:<8} -> Volume: {b.volume():>10.2f}")
+    print("\n=== VALIDASI (@staticmethod) ===")
+    print(f"Kubus.is_valid(5)      = {Kubus.is_valid(5)}")
+    print(f"Kubus.is_valid(-3)     = {Kubus.is_valid(-3)}")
+    print(f"Kubus.is_valid('a')    = {Kubus.is_valid('a')}")
+    print(f"Balok.is_valid(1, 2, 3) = {Balok.is_valid(1, 2, 3)}")
+    print(f"Tabung.is_valid(7, 10) = {Tabung.is_valid(7, 10)}")
+    print(f"Tabung.is_valid(-1, 5) = {Tabung.is_valid(-1, 5)}")
+    print(f"Bola.is_valid(0)       = {Bola.is_valid(0)}")
 
-    # TODO: Test parent abstract method (seharusnya error)
-    # print("\n=== TEST ABSTRACT (NotImplementedError) ===")
-    # try:
-    #     br = BangunRuang("Test")
-    #     br.volume()
-    # except NotImplementedError as e:
-    #     print(f"Error: {e}")
+    print("\n=== OPERATOR OVERLOADING ===")
+    print(f"{kubus} > {balok}  ? {kubus > balok}")
+    print(f"{tabung} > {bola}  ? {tabung > bola}")
+    print(f"{kubus} == {kubus2} ? {kubus == kubus2}")
+    print(f"{kubus} < {bola}   ? {kubus < bola}")
 
-    pass
+    print("\n=== URUTAN BERDASARKAN VOLUME ===")
+    bangun_list = [kubus, balok, tabung, bola]
+    urut_volume = sorted(bangun_list, key=lambda b: b.volume())
+    print("Kecil -> Besar:")
+    for i, b in enumerate(urut_volume, 1):
+        print(f"  {i}. {b.nama:<8} -> Volume: {b.volume():>10.2f}")
+
+    print("\nBesar -> Kecil:")
+    urut_desc = sorted(bangun_list, key=lambda b: b.volume(), reverse=True)
+    for i, b in enumerate(urut_desc, 1):
+        print(f"  {i}. {b.nama:<8} -> Volume: {b.volume():>10.2f}")
+
+    print("\n=== TABEL BANGUN RUANG ===")
+    print(f"{'Bangun':<8} | {'Volume':>10} | {'Luas Permukaan':>14}")
+    print("-" * 38)
+    for b in urut_volume:
+        print(f"{b.nama:<8} | {b.volume():>10.2f} | {b.luas_permukaan():>14.2f}")
+
+    print("\n=== TEST ABSTRACT (NotImplementedError) ===")
+    try:
+        br = BangunRuang("Test")
+        br.volume()
+    except NotImplementedError as e:
+        print(f"Error: {e}")
